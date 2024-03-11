@@ -1,0 +1,1 @@
+# VKcontest_community_team
