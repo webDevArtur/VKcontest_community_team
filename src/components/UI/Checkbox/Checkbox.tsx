@@ -9,7 +9,7 @@ interface Props {
 
 const Checkbox: React.FC<Props> = ({ checked, onChange, children }) => {
     return (
-        <VKCheckbox checked={checked} onChange={onChange}>
+        <VKCheckbox checked={checked} onChange={onChange} style={{ width: 'fit-content' }}>
             {children}
         </VKCheckbox>
     );

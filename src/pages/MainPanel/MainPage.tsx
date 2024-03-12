@@ -6,6 +6,7 @@ import GroupListItem from '../../components/GroupList/GroupListItem.tsx';
 import Spinner from '../../components/UI/Spinner/Spinner.tsx';
 import Select from '../../components/UI/Select/Select';
 import Checkbox from '../../components/UI/Checkbox/Checkbox';
+import { SelectChangeEvent } from '@mui/material/Select';
 import errorImage from '../../assets/error.png';
 import emptyImage from '../../assets/empty.png';
 import groupsData from '../../api/groups.json';
@@ -84,6 +85,12 @@ const MainPage: React.FC = () => {
         fetchData();
     };
 
+    const handleResetFilters = () => {
+        setPrivacyFilter({ value: 'all', label: 'Все' });
+        setColorFilter({ value: 'all', label: 'Любой' });
+        setFriendsFilter(false);
+    };
+
     return (
         <View activePanel="mainPanel">
             <Panel id="mainPanel">
@@ -95,25 +102,28 @@ const MainPage: React.FC = () => {
                         <Select
                             options={privacyOptions}
                             value={privacyFilter.value}
-                            onChange={(e: ChangeEvent<HTMLSelectElement>) => setPrivacyFilter({ value: e.target.value, label: e.target.value === 'all' ? 'Все' : e.target.value })}
-                            placeholder="Выберите тип приватности"
+                            onChange={(e: SelectChangeEvent<string>) => setPrivacyFilter({ value: e.target.value, label: e.target.value === 'all' ? 'Все' : e.target.value })}
+                            label="Тип приватности"
                         />
                     </div>
                     <div style={{ marginBottom: '16px', width: '85%' }}>
                         <Select
                             options={colorOptions}
                             value={colorFilter.value}
-                            onChange={(e: ChangeEvent<HTMLSelectElement>) => setColorFilter({ value: e.target.value, label: e.target.value === 'all' ? 'Любой' : e.target.value })}
-                            placeholder="Выберите цвет аватарки"
+                            onChange={(e: SelectChangeEvent<string>) => setColorFilter({ value: e.target.value, label: e.target.value === 'all' ? 'Любой' : e.target.value })}
+                            label="Цвет аватарки"
                         />
                     </div>
-                    <div style={{ width: '85%' }}>
+                    <div style={{ width: '85%', display: 'flex', flexDirection: 'column' }}>
                         <Checkbox
                             checked={friendsFilter}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => setFriendsFilter(e.target.checked)}
                         >
                             Показывать только группы с друзьями
                         </Checkbox>
+                        <Button onClick={handleResetFilters} style={{ alignSelf: 'flex-end', width: 'fit-content', marginBottom: '8px' }} >
+                        Сбросить фильтры
+                        </Button>
                     </div>
                 </div>
                 {isLoading ? (
