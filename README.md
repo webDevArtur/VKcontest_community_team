@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+# Тестовое задание для Frontend-разработчика
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Данный проект представляет собой простое React-приложение, разработанное в рамках отбора на позицию Frontend-разработчика в команду сообществ ВКонтакте.
 
-Currently, two official plugins are available:
+## Предоставление проекта
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Результат тестового задания должен быть доступен для проверки по ссылке.](https://v-kcontest-community-team.vercel.app/)
 
-## Expanding the ESLint configuration
+## Описание задания
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Было создано React-приложение, состоящее из одной страницы. При открытии приложение запрашивает список групп с бэкенда ( с вероятностью 0.66 вернёт результат, иначе вернёт ошибку). Для тестового задания используются моковые данные, взятые из файла `groups.json`.
 
-- Configure the top-level `parserOptions` property like this:
+![image](https://github.com/webDevArtur/VKcontest_community_team/assets/141954990/585d9e22-bad6-49a1-9850-c00491703947)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+
+### Тип ответа метода GetGroups
+
+```typescript
+interface GetGroupsResponse {
+  result: 1 | 0;
+  data?: Group[];
 }
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+interface Group {
+  id: number;
+  name: string;
+  closed: boolean;
+  avatar_color?: string;
+  members_count: number;
+  friends?: User[];
+}
+
+interface User {
+  first_name: string;
+  last_name: string;
+}
+
+## Описание
+
+Разработать React-приложение, отображающее список групп с возможностью фильтрации. Каждая группа может быть открытой или закрытой, иметь аватарку, представленную в виде круга с диаметром 100px и цветом, указанным в атрибуте `avatar_color`. Кроме того, группа может содержать список друзей, которые являются участниками этой группы.
+
+После получения списка всех групп его необходимо отобразить на странице в любом формате, показав имя группы, аватар, тип приватности (закрытая/открытая), количество подписчиков и количество друзей. При клике на количество друзей в блоке группы должен появиться блок с именем и фамилией каждого друга.
+
+Если для отображения какого-то поля нет данных, оно не должно рисоваться.
+
+Над списком групп должен быть набор фильтров, позволяющих выбрать только нужные группы. Мы должны иметь возможность фильтровать группы по типу приватности (все/закрытая/открытая), цвету аватарки (любой/все возможные значения из атрибута `avatar_color`), наличию друзей в группе.
+
+Учтите, что бэкенд обрабатывает все запросы с задержкой в 1 секунду. Реализуйте эту задержку самостоятельно. Метод также может вернуть ошибку или `result: 0`, или не вернуть поле `data`, что эквивалентно ошибке. Просто учтите это в коде.
+
+## Требования
+
+- React приложение.
+- Фильтрация групп по типу приватности, цвету аватарки и наличию друзей.
+- Отображение списка групп с информацией о каждой группе.
+- Возможность отображения списка друзей каждой группы при клике на количество друзей.
+- Обработка задержки бэкенда в 1 секунду.
+- Обработка ошибок метода.
